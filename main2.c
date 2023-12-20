@@ -263,7 +263,7 @@ void process_file(Lexer *lexer) {
 }
 
 int main() {
-    const char *filename = "input.txt";
+    const char *filename =  "test.ms";
     Lexer *lexer = create_lexer(filename);
     if (!lexer) {
         return 1;
