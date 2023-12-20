@@ -47,9 +47,10 @@ typedef struct {
 
 Lexer *create_lexer(const char *filename) {
     FILE *file = fopen(filename, "r");
-    if (!file) {
-        printf("Error opening file: %s\n", filename);
-        return NULL;
+     if (strlen(filename) <= 3 ||
+        strcmp(filename + strlen(filename) - 3, ".ms") != 0) {
+        fprintf(stderr, "Error: Input file must have the '.ms' extension.\n");
+        exit(1);
     }
 
     Lexer *lexer = (Lexer *)malloc(sizeof(Lexer));
