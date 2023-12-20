@@ -3,6 +3,36 @@
 #include <stdlib.h>
 #include <string.h>
 
+// TODO: For checking only, delete later
+const char *keywords[] = {"balik", "ipakita", "kundi", "pangungusap",
+                          "para",  "pasok",   "tigil", "walangbalik"};
+
+const char *reserved_words[] = {"bool",      "des",    "int",
+                                "kar",       "mali",   "magpatuloy",
+                                "pumuntasa", "simula", "tama"};
+
+int is_keyword(const char *str) {
+    int len = sizeof(keywords) / sizeof(keywords[0]);
+
+    for (int i = 0; i < len; ++i) {
+        if (strcmp(str, keywords[i]) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int is_reserved_word(const char *str) {
+    int len = sizeof(reserved_words) / sizeof(reserved_words[0]);
+
+    for (int i = 0; i < len; ++i) {
+        if (strcmp(str, reserved_words[i]) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+// DELETE UP TIL HERE
 
 enum {
     TOKEN_INT,
@@ -49,7 +79,7 @@ typedef struct {
 
 Lexer *create_lexer(const char *filename) {
     FILE *file = fopen(filename, "r");
-     if (strlen(filename) <= 3 ||
+    if (strlen(filename) <= 3 ||
         strcmp(filename + strlen(filename) - 3, ".ms") != 0) {
         fprintf(stderr, "Error: Input file must have the '.ms' extension.\n");
         exit(1);
@@ -98,6 +128,7 @@ void process_file(Lexer *lexer) {
             continue;
         }
 
+        // Check if word is resword, keyword, or identifier
         if (isalpha(lexer->current_char)) {
             char value[100];
             int idx = 0;
@@ -110,13 +141,20 @@ void process_file(Lexer *lexer) {
 
             if (idx > 0 &&
                 (isalpha(value[idx - 1]) || isdigit(value[idx - 1]))) {
-                fprintf(lexer->outputFile, "%-20sIDENTIFIER\n", value);
+                if (is_reserved_word(value)) {
+                    fprintf(lexer->outputFile, "%-20sRESERVED WORD\n", value);
+                } else if (is_keyword(value)) {
+                    fprintf(lexer->outputFile, "%-20sKEYWORD\n", value);
+                } else {
+                    fprintf(lexer->outputFile, "%-20sIDENTIFIER\n", value);
+                }
             } else {
                 printf("Invalid identifier: %s\n", value);
             }
             continue;
         }
 
+        // Check if digit is int or float
         if (isdigit(lexer->current_char) || lexer->current_char == '.') {
             char value[100];
             int idx = 0;
@@ -147,6 +185,7 @@ void process_file(Lexer *lexer) {
             continue;
         }
 
+        // operators
         switch (lexer->current_char) {
             case '+':
                 if (lexer->next_char == '=') {
@@ -265,7 +304,7 @@ void process_file(Lexer *lexer) {
 }
 
 int main() {
-    const char *filename =  "test.ms";
+    const char *filename = "test.ms";
     Lexer *lexer = create_lexer(filename);
     if (!lexer) {
         return 1;
