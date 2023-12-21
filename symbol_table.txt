@@ -1,5 +1,3 @@
-balik               KEYWORD
-name                IDENTIFIER
-bool                RESERVED WORD
-RED                 IDENTIFIER
+kung                KEYWORD
+ipakita             KEYWORD
 EOF                 EOF

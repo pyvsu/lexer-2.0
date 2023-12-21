@@ -1,4 +1,2 @@
-balik
-name
-bool
-RED
+kung 
+ipakita
