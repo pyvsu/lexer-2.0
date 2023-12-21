@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 a                   IDENTIFIER
 |                   OR
 b                   IDENTIFIER
+=======
+balik               KEYWORD
+name                IDENTIFIER
+bool                RESERVED WORD
+RED                 IDENTIFIER
+>>>>>>> 594a09ac45a5c1f6333d7410f5bf9b7049ef4110
 EOF                 EOF
