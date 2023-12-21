@@ -56,6 +56,7 @@ enum {
     TOKEN_GREATER_THAN_EQUAL,
     TOKEN_NOT_EQUAL,
     TOKEN_MODULUS,
+    TOKEN_MODULUS_ASSIGN,
     TOKEN_EXPONENT,
     TOKEN_OPEN_CURLY_BRACE,
     TOKEN_CLOSE_CURLY_BRACE,
@@ -221,9 +222,6 @@ void process_file(Lexer *lexer) {
                 if (lexer->next_char == '=') {
                     fprintf(lexer->outputFile, "%-20sDIV_ASSIGN\n", "/=");
                     move_to_next(lexer);
-                } else if (lexer->next_char == '/') {
-                    fprintf(lexer->outputFile, "%-20sOR\n", "//");
-                    move_to_next(lexer);
                 } else {
                     fprintf(lexer->outputFile, "%-20sDIVIDE\n", "/");
                 }
@@ -262,7 +260,12 @@ void process_file(Lexer *lexer) {
                 }
                 break;
             case '%':
-                fprintf(lexer->outputFile, "%-20sMODULUS\n", "%");
+                if (lexer->next_char == '=') {
+                    fprintf(lexer->outputFile, "%-20sMODULUS_ASSIGN\n", "%=");
+                    move_to_next(lexer);
+                } else {
+                    fprintf(lexer->outputFile, "%-20sMODULUS\n", "%");
+                }
                 break;
             case ':':
                 fprintf(lexer->outputFile, "%-20sEXPONENT\n", ":");
@@ -285,6 +288,10 @@ void process_file(Lexer *lexer) {
             case ']':
                 fprintf(lexer->outputFile, "%-20sCLOSE_SQUARE_BRACKET\n", "]");
                 break;
+            case '|':
+                fprintf(lexer->outputFile, "%-20sOR\n", "|");
+                break;
+
             case '@':
                 fprintf(lexer->outputFile, "%-20sAND\n", "@");
                 break;
