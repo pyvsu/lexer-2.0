@@ -1,0 +1,4 @@
+balik
+name
+bool
+RED

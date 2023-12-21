@@ -1,0 +1,5 @@
+balik               KEYWORD
+name                IDENTIFIER
+bool                RESERVED WORD
+RED                 IDENTIFIER
+EOF                 EOF
