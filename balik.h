@@ -56,7 +56,7 @@ enum STATE bali(int c) {
 }
 
 enum STATE balik(int c) {
-    enum STATE state = BALI;
+    enum STATE state = BALIK;
     return state;
 }
 
